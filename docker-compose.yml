@@ -10,7 +10,7 @@ services:
       - hosts:/hosts
   node:
     build: ./docker-image
-    command: ./compose-start.sh
+    command: ./compose-node-start.sh
     volumes_from:
       - head
 

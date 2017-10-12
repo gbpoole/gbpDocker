@@ -14,6 +14,7 @@ RUN apt-get update \
         openmpi-common \
         libopenmpi-dev \
         ssh \
+        git \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
@@ -26,7 +27,7 @@ RUN useradd mpi_user \
 COPY ssh-keys/id_rsa.mpi ${HOME}/.ssh/id_rsa
 COPY ssh-keys/id_rsa.mpi.pub ${HOME}/.ssh/authorized_keys
 COPY ssh-keys/config ${HOME}/.ssh/config
-COPY compose-start.sh make-hostfile.sh ${HOME}/
+COPY compose-head-start.sh compose-node-start.sh make-hostfile.sh ${HOME}/
 
 WORKDIR ${HOME}
 RUN  chown -R mpi_user:mpi_user ${HOME} \

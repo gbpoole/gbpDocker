@@ -18,20 +18,26 @@ To use:
     $ cd docker-image
     $ ./change_ssh_keys.sh
     ```
+    (Be careful ... if you change this after using a
+    previous key for a while, you may need to remove
+    [localhost]:2222 from your .ssh/known_hosts.)
 
-2. Then, build the docker image:
+2. Then, from the root directory, build the docker image
+   (this generally only needs to be done once):
     ```
-    $ docker-compose build
+    $ ./cluster_build.sh
     ```
 
 3.  To deploy the cluster (in this example, building 4 nodes):
     ```
-    $ docker-compose up --scale node=4 -d
+    $ ./cluster_up.sh [n_nodes]
     ```
+
+    where [n_nodes] is required and must be >=1.
 
 3. To login to the head node:
     ```
-    $ ./connect.sh
+    $ ./cluster_login.sh
     ```
 
 4. To run mpi programs from the head node:
@@ -58,6 +64,6 @@ To use:
 
 4. Finally, to shutdown the cluster:
     ```
-    $ docker-compose down -v
+    $ ./cluster_down.sh
     ```
 
