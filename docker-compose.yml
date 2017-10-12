@@ -1,9 +1,9 @@
 version: "2"
 
 services:
-  master:
+  head:
     build: ./docker-image
-    container_name: master
+    container_name: head
     ports:
       - "2222:22"
     volumes:
@@ -12,7 +12,7 @@ services:
     build: ./docker-image
     command: ./compose-start.sh
     volumes_from:
-      - master
+      - head
 
 networks:
   default:

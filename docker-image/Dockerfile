@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-MAINTAINER Daisuke Miyamoto <miyamoto@brain.imi.i.u-tokyo.ac.jp>
+MAINTAINER Gregory Poole <gbpoole@gmail.com>
 ENV HOME /home/mpi_user
 
 RUN apt-get update \
@@ -16,7 +16,7 @@ RUN apt-get update \
         ssh \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/* \
-    && apt-get autoclean
+    && apt-get clean
 
 RUN useradd mpi_user \
     && mkdir -p ${HOME} \
@@ -26,8 +26,7 @@ RUN useradd mpi_user \
 COPY ssh-keys/id_rsa.mpi ${HOME}/.ssh/id_rsa
 COPY ssh-keys/id_rsa.mpi.pub ${HOME}/.ssh/authorized_keys
 COPY ssh-keys/config ${HOME}/.ssh/config
-COPY compose-start.sh ${HOME}
-COPY make-hostfile.sh ${HOME}
+COPY compose-start.sh make-hostfile.sh ${HOME}/
 
 WORKDIR ${HOME}
 RUN  chown -R mpi_user:mpi_user ${HOME} \
