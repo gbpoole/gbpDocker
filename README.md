@@ -1,26 +1,40 @@
-docker-openmpi
+gbpDocker
 ---
 
-[![Build Status](https://travis-ci.org/DaisukeMiyamoto/docker-openmpi.svg?branch=master)](https://travis-ci.org/DaisukeMiyamoto/docker-openmpi)
+This project provides a base image for building projects
+that require an MPI-enabled cluster.  It began  with a
+clone of:
 
-base package for docker cluster with openmpi
+ git@github.com:DaisukeMiyamoto/docker-openmpi.git
+ (commit b8ad167216bba7fef9a7802bcfc7ceda763aea9b)
 
-# with docker compose
-1. set up `docker-compose`
-1. generate ssh public key pair
+and has evolved from there.
+
+To use:
+
+1. First, you may want to generate a personalized
+   ssh public key pair:
     ```
-    $ ./keygen.sh
+    $ cd docker-image
+    $ ./change_ssh_keys.sh
     ```
-1. build and deploy MPI cluster
+
+2. Then, build the docker image:
     ```
     $ docker-compose build
+    ```
+
+3.  To deploy the cluster (in this example, building 4 nodes):
+    ```
     $ docker-compose up --scale node=4 -d
     ```
-2. login to master node
+
+3. To login to the head node:
     ```
-    $ ./connect-master.sh
+    $ ./connect.sh
     ```
-3. run mpi program from master node
+
+4. To run mpi programs from the head node:
     ```
     $ ./make-hostfile.sh
     $ mpirun -np 16 hostname
@@ -41,21 +55,9 @@ base package for docker cluster with openmpi
     4c1364ddf9d9
     4c1364ddf9d9
     ```
-4. shutdown cluster
+
+4. Finally, to shutdown the cluster:
     ```
     $ docker-compose down -v
     ```
 
-# with swarm
-
-# with kubernetes
-
-1. set up `kubernetes`
-
-1. start cluster
-    ```
-    $ kubectl create -f mpi-deployment.yml
-    ```
-1. login to master node
-1. run mpi program
-1. shutdown cluster
