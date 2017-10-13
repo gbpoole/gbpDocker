@@ -1,2 +1,2 @@
 #!/bin/bash
-git clone git@github.com:gbpoole/gbpHome.git
+export GBPDOCKER_ENV='ON'

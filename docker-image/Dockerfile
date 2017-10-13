@@ -31,13 +31,12 @@ RUN useradd ${USR}   \
 
 # Clone gbpHome into the home directory
 WORKDIR ${HOME}
-RUN export GBPDOCKER_ENV='ON'
 ADD https://api.github.com/repos/docker/docker/compare/master...HEAD /dev/null
 RUN git init .
 RUN git remote add -t \* -f origin https://github.com/gbpoole/gbpHome.git
 RUN git checkout master
 RUN echo "source ~/.bashrc.gbpHome" > .bashrc
-RUN rm -r .ssh/*
+RUN rm -rf .ssh/* 3rd_Party
 
 # Configure ssh keys etc
 WORKDIR ${HOME}
@@ -54,8 +53,10 @@ RUN chown -R ${USR}:${USR} ${HOME}                  \
  && mkdir /var/run/sshd
 
 ## Initialization scripts
-COPY compose-head-start.sh compose-node-start.sh make-hostfile.sh ${DKRDIR}/
-RUN  chmod a+x ${DKRDIR}/*.sh
+COPY compose-head-start.sh compose-node-start.sh ${DKRDIR}/
+COPY make-hostfile.sh ${HOME}/
+RUN  chmod a+x ${DKRDIR}/*.sh        \
+  && chmod a+x ${HOME}/*.sh
 
 # Expose port 22
 EXPOSE 22

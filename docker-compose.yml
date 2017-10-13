@@ -8,11 +8,15 @@ services:
       - "2222:22"
     volumes:
       - hosts:/hosts
+    environment:
+      - GBPDOCKER_ENV=ON
   node:
     build:  ./docker-image
     command: /usr/local/gbpDocker/compose-node-start.sh
     volumes_from:
       - head
+    environment:
+      - GBPDOCKER_ENV=ON
 
 networks:
   default:
