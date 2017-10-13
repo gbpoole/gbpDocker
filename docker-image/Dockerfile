@@ -19,6 +19,7 @@ RUN apt-get update     \
      libopenmpi-dev    \
      ssh               \
      git               \
+     vim-gnome         \
  && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
  && rm -rf /var/lib/apt/lists/* \
  && apt-get clean
@@ -30,16 +31,13 @@ RUN useradd ${USR}   \
 
 # Clone gbpHome into the home directory
 WORKDIR ${HOME}
+RUN export GBPDOCKER_ENV='ON'
 ADD https://api.github.com/repos/docker/docker/compare/master...HEAD /dev/null
 RUN git init .
 RUN git remote add -t \* -f origin https://github.com/gbpoole/gbpHome.git
 RUN git checkout master
 RUN echo "source ~/.bashrc.gbpHome" > .bashrc
 RUN rm -r .ssh/*
-
-# DEBUG
-RUN mv .bashrc.gbpHome .bashrc.gbpHome.bkp
-RUN touch .bashrc.gbpHome
 
 # Configure ssh keys etc
 WORKDIR ${HOME}

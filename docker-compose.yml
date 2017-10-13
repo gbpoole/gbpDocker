@@ -2,14 +2,14 @@ version: "2"
 
 services:
   head:
-    build: ./docker-image
-    container_name: head
+    build:   ./docker-image
+    hostname: ${project_name}_head
     ports:
       - "2222:22"
     volumes:
       - hosts:/hosts
   node:
-    build: ./docker-image
+    build:  ./docker-image
     command: /usr/local/gbpDocker/compose-node-start.sh
     volumes_from:
       - head

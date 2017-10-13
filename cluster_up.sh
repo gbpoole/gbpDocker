@@ -14,4 +14,4 @@ if [ $N_NODES -lt 1 ] || ! [[ $N_NODES =~ ^-?[0-9]+$ ]] ; then
     exit 2
 fi
 
-docker-compose up --scale node=$N_NODES -d
+docker-compose up --scale node=$N_NODES -d 
