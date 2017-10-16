@@ -55,12 +55,11 @@ RUN chown -R ${USR}:${USR} ${HOME}                  \
  && chmod 666 /etc/openmpi/openmpi-default-hostfile \
  && mkdir /var/run/sshd
 
-## Initialization scripts
-COPY ${gbpDocker_dir}/compose-head-start.sh ${gbpDocker_dir}/compose-node-start.sh ${DKRDIR}/
-COPY ${gbpDocker_dir}/make-hostfile.sh ${HOME}/
+# Initialization scripts
+COPY ${gbpDocker_dir}/compose-node-start.sh ${DKRDIR}/
+COPY ${gbpDocker_dir}/make-hostfile.sh ${DKRDIR}/
 RUN  echo "GBPDOCKER_ENV=ON" > .env.gbpDocker
-RUN  chmod a+x ${DKRDIR}/*.sh \
-  && chmod a+x ${HOME}/*.sh
+RUN  chmod a+x ${DKRDIR}/*.sh 
 
 # Expose port 22
 EXPOSE 22

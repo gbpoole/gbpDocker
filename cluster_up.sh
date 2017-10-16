@@ -1,5 +1,15 @@
 #!/bin/bash
 
+run() {
+  "$@"
+  if [ $? -ne 0 ]; then
+    echo "$1 failed with exit code $?"
+    return 1
+  else
+    return 0
+  fi
+}
+
 # Validate and parse paramaters
 if [ $# -ne 1 ]; then
     echo "Syntax: "$0" [n_nodes>=1]"
@@ -18,5 +28,11 @@ fi
 export project_name=`basename $PWD`
 
 # Create the containers
-docker-compose up --scale node=$N_NODES -d 
+run docker-compose up --scale node=$N_NODES -d 
+
+# Get the head container ID
+head_id=$(docker-compose ps -q head)
+
+# Create the hostname file
+run docker exec $head_id /usr/local/gbpDocker/make-hostfile.sh
 
