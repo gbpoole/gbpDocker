@@ -14,4 +14,9 @@ if [ $N_NODES -lt 1 ] || ! [[ $N_NODES =~ ^-?[0-9]+$ ]] ; then
     exit 2
 fi
 
+# Set the project name that will be used in docker-compose.yml
+export project_name=`basename $PWD`
+
+# Create the containers
 docker-compose up --scale node=$N_NODES -d 
+

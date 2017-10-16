@@ -1,6 +1,9 @@
 FROM ubuntu:16.04
 MAINTAINER Gregory Poole <gbpoole@gmail.com>
 
+# Take the location of the gbpDocker files as an argument
+ARG gbpDocker_dir
+
 # Set the home directory for the user
 ENV USR    mpi_user
 ENV HOME   /home/${USR}/
@@ -42,9 +45,9 @@ RUN rm -rf .ssh/* 3rd_Party
 WORKDIR ${HOME}
 RUN mkdir -p ${HOME}/.ssh \
  && chown -R ${USR}:${USR} ${HOME}/.ssh
-COPY ssh-keys/id_rsa.mpi     .ssh/id_rsa
-COPY ssh-keys/id_rsa.mpi.pub .ssh/authorized_keys
-COPY ssh-keys/config         .ssh/config
+COPY ${gbpDocker_dir}/ssh-keys/id_rsa.mpi     .ssh/id_rsa
+COPY ${gbpDocker_dir}/ssh-keys/id_rsa.mpi.pub .ssh/authorized_keys
+COPY ${gbpDocker_dir}/ssh-keys/config         .ssh/config
 RUN chown -R ${USR}:${USR} ${HOME}                  \
  && chmod 700 .ssh                                  \
  && chmod 600 .ssh/*                                \
@@ -53,9 +56,10 @@ RUN chown -R ${USR}:${USR} ${HOME}                  \
  && mkdir /var/run/sshd
 
 ## Initialization scripts
-COPY compose-head-start.sh compose-node-start.sh ${DKRDIR}/
-COPY make-hostfile.sh ${HOME}/
-RUN  chmod a+x ${DKRDIR}/*.sh        \
+COPY ${gbpDocker_dir}/compose-head-start.sh ${gbpDocker_dir}/compose-node-start.sh ${DKRDIR}/
+COPY ${gbpDocker_dir}/make-hostfile.sh ${HOME}/
+RUN  echo "GBPDOCKER_ENV=ON" > .env.gbpDocker
+RUN  chmod a+x ${DKRDIR}/*.sh \
   && chmod a+x ${HOME}/*.sh
 
 # Expose port 22

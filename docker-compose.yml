@@ -1,22 +1,31 @@
 version: "2"
 
 services:
+
   head:
-    build:   ./docker-image
+    build:
+        context:
+            .
+        dockerfile:
+            ./docker-image/Dockerfile
+        args:
+            gbpDocker_dir: ./docker-image/
     hostname: ${project_name}_head
     ports:
       - "2222:22"
     volumes:
       - hosts:/hosts
-    environment:
-      - GBPDOCKER_ENV=ON
   node:
-    build:  ./docker-image
+    build:
+        context:
+            .
+        dockerfile:
+            ./docker-image/Dockerfile
+        args:
+            gbpDocker_dir: ./docker-image/
     command: /usr/local/gbpDocker/compose-node-start.sh
     volumes_from:
       - head
-    environment:
-      - GBPDOCKER_ENV=ON
 
 networks:
   default:

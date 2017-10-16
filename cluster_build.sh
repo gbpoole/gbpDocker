@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# Use current directory name for project name
-echo project_name=`basename $PWD`  > .env
+# Set the project name that will be used in docker-compose.yml
+export project_name=`basename $PWD`
 
+# Build the image
 docker-compose build 
+
