@@ -38,7 +38,6 @@ ADD https://api.github.com/repos/docker/docker/compare/master...HEAD /dev/null
 RUN git init .
 RUN git remote add -t \* -f origin https://github.com/gbpoole/gbpHome.git
 RUN git checkout master
-RUN echo "source ~/.bashrc.gbpHome" > .bashrc
 RUN rm -rf .ssh/* 3rd_Party
 
 # Configure ssh keys etc
